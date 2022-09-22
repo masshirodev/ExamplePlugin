@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version 'V1.0'
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+
+dependencies {
+    implementation 'com.github.RsAbyss:AbyssAPI:master-SNAPSHOT'
+    compileOnly name: 'AbyssStub-1.0-SNAPSHOT'
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    destinationDirectory.set(file("Path\\To\\Abyss\\Addon\\Folder"))
+
+    manifest {
+        attributes "Main-Class": "abyss.plugin.kinno.ExamplePlugin"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
